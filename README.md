@@ -384,7 +384,7 @@ Distribute `pqc_keys/dilithium3_public.key` to all nodes.
 
 ### Endurance Test (1 Hour)
 
-**Status:** Not yet executed (implementation ready)
+**Status:** Executed - results available
 
 **Test:** `python test_endurance_1h.py`
 
@@ -395,7 +395,7 @@ Distribute `pqc_keys/dilithium3_public.key` to all nodes.
 - P95 latency degradation: < 10% vs baseline
 - No 500 errors
 
-Results placeholder: `perf_artifacts/endurance_1h_results.json`
+Results: `perf_artifacts/endurance_1h_results.json`
 
 ### Stealth Mode Validation
 
