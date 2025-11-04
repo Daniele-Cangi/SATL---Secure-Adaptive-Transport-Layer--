@@ -399,11 +399,20 @@ Results: `perf_artifacts/endurance_1h_results.json`
 
 ### Stealth Mode Validation
 
-**Status:** Implementation complete, 600-second KS/xcorr/AUC validation pending
+**Status:** Implemented – ready to run (600s KS/xcorr/AUC)
 
-**Test:** `test_stealth_600s.py` (not yet created)
+**Test:** `python test_stealth_600s.py`
 
-**Goal:** Validate indistinguishability from baseline traffic using statistical tests.
+**Acceptance criteria:**
+- KS-p (inter-arrival): ≥ 0.20
+- XCorr_max (autocorr excl. lag 0): ≤ 0.35
+- AUC (inter-arrival classifiability): ≤ 0.55
+
+Results: `perf_artifacts/stealth_600s_results.json`
+
+Notes:
+- Start forwarders in stealth mode first: `./profiles/switch_profile.ps1 stealth`
+- For a quick smoke test: `python test_stealth_600s.py --duration 120`
 
 ---
 
