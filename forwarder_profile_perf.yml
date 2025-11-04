@@ -1,0 +1,42 @@
+# SATL 3.0 - Forwarder Profile: PERFORMANCE (LOW-LATENCY)
+#
+# MODE: performance
+# SPO: logic-secure
+# PQC: design-level
+#
+# This profile disables all stealth delays to measure pure crypto + network overhead
+
+profile: performance
+
+# Queue delays (DISABLED for performance testing)
+queue_delay_ms:
+  min: 0
+  max: 0
+
+# Packet reordering (DISABLED for performance testing)
+reorder_rate: 0.0
+
+# Padding strategy (MINIMAL for performance testing)
+padding: minimal
+
+# Max hops enforcement (ALWAYS 3)
+max_hops: 3
+
+# Usage:
+# 1. Stop all forwarders (Ctrl+C in terminals)
+# 2. Modify testnet_beta_policy.py:
+#      per_hop_queue_delay_ms = (0, 0)
+#      reorder_rate = 0.0
+# 3. Restart forwarders with performance profile:
+#      python satl_forwarder_daemon.py --role guard --port 9000
+#      python satl_forwarder_daemon.py --role middle --port 9001
+#      python satl_forwarder_daemon.py --role exit --port 9002
+# 4. Run: python test_performance_bare.py
+#
+# Expected results:
+#   - P95 latency < 100ms (concurrency 10)
+#   - Success rate >= 99%
+#
+# If P95 > 100ms with queue=0:
+#   → Architectural overhead in DP requires profiling
+#   → Check: crypto ops, HTTP overhead, Python GIL, async scheduler

@@ -1,0 +1,7 @@
+# Caddyfile — TLS automatico davanti ai nodi (sostituisci domini)
+nodeA.example.com {
+    reverse_proxy nodeA:9000
+}
+nodeB.example.com {
+    reverse_proxy nodeB:9000
+}

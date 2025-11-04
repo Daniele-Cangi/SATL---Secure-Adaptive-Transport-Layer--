@@ -1,0 +1,9 @@
+# ===========================
+# prometheus.yml  (NUOVO)
+# ===========================
+global:
+  scrape_interval: 5s
+scrape_configs:
+  - job_name: "satl_nodes"
+    static_configs:
+      - targets: ["nodeA:9101","nodeB:9102"]

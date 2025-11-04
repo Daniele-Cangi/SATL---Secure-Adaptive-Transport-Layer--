@@ -1,0 +1,103 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+*.log
+
+# SATL specific
+*.db
+*.db-shm
+*.db-wal
+pqc_keys/*.pem
+pqc_keys/*.pub
+!pqc_keys/.gitkeep
+
+# Build artifacts
+cmake/
+cmake.zip
+advanced_morphing.zip
+nul
+
+# Temporary files
+*.tmp
+temp_*.txt
+test_*.json
+test_*.log
+*.pcap.txt
+baseline.jsonl
+satl.jsonl
+satl_latest.log
+testnet_beta_validation.log
+test_results.log
+
+# Performance artifacts
+perf_artifacts/
+performance_*.json
+endurance_*.json
+
+# Documentation temporanea
+DIAGNOSTIC_*.md
+DO_NOW_*.md
+ENDURANCE_*.md
+FINAL_STATUS_*.md
+GO_NOGO_*.md
+IMPLEMENTATION_*.md
+INTEGRATION_*.md
+PRODUCTION_*.md
+PUSH_*.md
+QUICKSTART_*.md
+STEEL_*.md
+TEST_STRATEGY*.md
+CLEANUP_*.md
+STEALTH_VALIDATION_*.md
+STEALTH_IMPLEMENTATION_*.md
+TESTNET_BETA_*.md
+perf_artifacts/*.json.bak
+perf_artifacts/*.tmp
+
+# Secrets
+.env
+*.key
+*.secret
+credentials.json
+
+# OS
+Thumbs.db
+desktop.ini

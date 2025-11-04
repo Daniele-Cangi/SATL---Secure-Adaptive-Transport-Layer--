@@ -1,0 +1,73 @@
+# ===================================
+# docker-compose.yml  (AGGIORNATO)
+# Aggiunge Prometheus & Grafana
+# ===================================
+version: "3.8"
+services:
+  control-plane:
+    image: python:3.11-slim
+    working_dir: /app
+    command: sh -c "pip install fastapi uvicorn && python control_plane.py"
+    volumes: [".:/app"]
+    environment:
+      - SATL_CP_ED_SECRET=ed_secret
+    ports: ["8000:8000"]
+
+  nodeA:
+    image: python:3.11-slim
+    working_dir: /app
+    command: sh -c "pip install fastapi uvicorn aiohttp prometheus_client && python node_daemon.py"
+    volumes: [".:/app"]
+    environment:
+      - SATL_CP_URL=http://control-plane:8000
+      - SATL_NODE_ID=node-A
+      - SATL_PUB_EP=http://nodeA:9000/ingress
+      - SATL_HTTP_PORT=9000
+      - SATL_METRICS_PORT=9101
+    ports: ["9000:9000","9101:9101"]
+    depends_on: [control-plane]
+
+  nodeB:
+    image: python:3.11-slim
+    working_dir: /app
+    command: sh -c "pip install fastapi uvicorn aiohttp prometheus_client && python node_daemon.py"
+    volumes: [".:/app"]
+    environment:
+      - SATL_CP_URL=http://control-plane:8000
+      - SATL_NODE_ID=node-B
+      - SATL_PUB_EP=http://nodeB:9000/ingress
+      - SATL_HTTP_PORT=9000
+      - SATL_METRICS_PORT=9102
+    ports: ["9001:9000","9102:9102"]
+    depends_on: [control-plane]
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+    ports: ["9090:9090"]
+
+  grafana:
+    image: grafana/grafana-oss
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+    ports: ["3000:3000"]
+    depends_on: [prometheus]
+
+  caddy:
+    image: caddy:2
+    ports: ["80:80","443:443"]
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+    depends_on: [nodeA, nodeB]
+
+  watchtower:
+    image: containrrr/watchtower
+    command: --interval 300
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock

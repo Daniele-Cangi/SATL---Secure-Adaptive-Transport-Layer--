@@ -1,0 +1,16 @@
+fastapi
+uvicorn
+aiohttp
+prometheus_client
+numpy
+scipy
+scikit-learn
+requests
+playwright
+cryptography
+oqs
+aioquic
+httptools
+orjson
+psutil
+httpx

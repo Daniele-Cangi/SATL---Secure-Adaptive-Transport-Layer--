@@ -1,0 +1,100 @@
+{
+  "mode": "performance",
+  "spo": "logic-secure",
+  "pqc": "design-level",
+  "test_date": "2025-11-02 00:45:19 UTC",
+  "configuration": {
+    "queue_delay_ms": 0,
+    "reorder_rate": 0.0,
+    "padding": "minimal",
+    "max_hops": 3
+  },
+  "results": [
+    {
+      "mode": "performance",
+      "spo": "logic-secure",
+      "pqc": "design-level",
+      "test_name": "Sustained 60s - 10 concurrent",
+      "success": false,
+      "duration": 60.12076079999679,
+      "packets": {
+        "total": 3150,
+        "successes": 3150,
+        "failures": 0,
+        "success_rate": 1.0
+      },
+      "throughput": {
+        "packets_per_second": 52.3945465440645
+      },
+      "latency": {
+        "min": 60.943499993300065,
+        "max": 444.34809999074787,
+        "mean": 125.09782857171052,
+        "median": 124.21919999178499,
+        "stdev": 35.20539968801337,
+        "variance": 1239.4201671927722,
+        "p50": 124.2398000031244,
+        "p95": 172.70840000128374,
+        "p99": 194.07560001127422
+      },
+      "criteria": {
+        "success_rate_99": {
+          "pass": true,
+          "value": 100.0,
+          "target": 99.0,
+          "unit": "%"
+        },
+        "p95_latency_100ms": {
+          "pass": false,
+          "value": 172.70840000128374,
+          "target": 100,
+          "unit": "ms"
+        }
+      }
+    },
+    {
+      "mode": "performance",
+      "spo": "logic-secure",
+      "pqc": "design-level",
+      "test_name": "Sustained 60s - 50 concurrent",
+      "success": false,
+      "duration": 60.315636599989375,
+      "packets": {
+        "total": 5150,
+        "successes": 5150,
+        "failures": 0,
+        "success_rate": 1.0
+      },
+      "throughput": {
+        "packets_per_second": 85.38416056444154
+      },
+      "latency": {
+        "min": 105.25009999400936,
+        "max": 873.9071000018157,
+        "mean": 334.37297864089203,
+        "median": 316.61714999063406,
+        "stdev": 109.44386448843524,
+        "variance": 11977.959474162975,
+        "p50": 316.6239999991376,
+        "p95": 528.1961000000592,
+        "p99": 683.3683000004385
+      },
+      "criteria": {
+        "success_rate_99": {
+          "pass": true,
+          "value": 100.0,
+          "target": 99.0,
+          "unit": "%"
+        },
+        "p95_latency_100ms": {
+          "pass": false,
+          "value": 528.1961000000592,
+          "target": 100,
+          "unit": "ms"
+        }
+      }
+    }
+  ],
+  "status": "INVALID-CONFIG (stealth delays active)",
+  "note": "Baseline measurement with stealth delays - NOT valid for performance criteria"
+}
