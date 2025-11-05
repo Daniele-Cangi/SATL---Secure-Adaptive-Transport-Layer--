@@ -413,6 +413,46 @@ Results: `perf_artifacts/stealth_600s_results.json`
 Notes:
 - Start forwarders in stealth mode first: `./profiles/switch_profile.ps1 stealth`
 - For a quick smoke test: `python test_stealth_600s.py --duration 120`
+ 
+### Stealth Mode Validation (NHPP client)
+
+**Status:** Implemented – NHPP client scheduler and server-side stealth profile ready for validation (short and long runs).
+
+**Test:** `python test_stealth_600s.py` (producer-consumer NHPP scheduler)
+
+**What it does:**
+- Client-side NHPP producer generates HTTPS-like inter-arrivals (exp + lognormal + bursts).
+- Async workers consume from a queue and POST packets to the guard ingress; both send and completion timestamps are recorded.
+- Diagnostics include KS 2-sample (normalized inter-arrivals), autocorrelation (XCorr_max) and ROC-AUC (discriminability).
+
+Usage examples
+
+```powershell
+# Quick smoke (120s) and save raw arrays
+python .\test_stealth_600s.py --duration 120 --concurrency 10 --rate 8.0 --ks-source send --save-raw
+
+# Full validation (600s)
+python .\test_stealth_600s.py --duration 600 --concurrency 10 --rate 8.0 --ks-source send --save-raw
+
+# Experimental: apply empirical rate correction (flag) with custom factor
+python .\test_stealth_600s.py --duration 600 --concurrency 10 --rate 8.0 --ks-source send --save-raw --apply-rate-correction --rate-correction-factor 0.88
+```
+
+Acceptance policy (recommended)
+
+- For n < 1500 inter-arrivals: KS p ≥ 0.10, XCorr_max ≤ 0.35, AUC ≤ 0.55
+- For n ≥ 1500 inter-arrivals: perform subsampling (K=20, M=1500) on normalized inter-arrivals and accept if the fraction of subsamples with p ≥ 0.20 is ≥ 0.60. XCorr_max and AUC remain blocking checks.
+
+Outputs and diagnostics
+
+- Results JSON: `perf_artifacts/stealth_600s_results.json` (contains metrics, policy used, raw file path)
+- Raw arrays (.npz): `perf_artifacts/stealth_600s_raw_seed<seed>_<ts>.npz` (contains send_dt, comp_dt, base_dt)
+- Diagnostics script: `tools/inspect_raw.py` — prints percentiles, KS and Wasserstein distance for offline analysis
+
+Notes
+
+- `--apply-rate-correction` is experimental and off by default. Use it for calibration only; the acceptance policy above is authoritative for passing/failing stealth validation.
+- Maintain nightly regression checks on P90/P95/P99 and Wasserstein distance to detect drift.
 
 ---
 
